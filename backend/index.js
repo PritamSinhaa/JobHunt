@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './utils/db.js';
 import userRoute from './routes/user.route.js'
+import companyRoute from './routes/comapy.route.js'
 
 dotenv.config({})
 
@@ -31,6 +32,7 @@ app.use(cors(corsOptions));
 
 //api's
 app.use("/api/v1/user",userRoute)
+app.use("/api/v1/company",companyRoute)
 
 app.listen(PORT,()=>{
     console.log(`app is running at port ${PORT}`);
