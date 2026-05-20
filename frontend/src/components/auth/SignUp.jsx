@@ -3,11 +3,9 @@ import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { RadioGroup } from '../ui/radio-group'
-import { RadioGroupItem } from '../ui/radio-group'
 import { Button } from '../ui/button'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import {NavLink, useNavigate } from 'react-router-dom'
 import { USER_API_END_POINT } from '../utils/constant'
-import { Toaster } from '../ui/sonner'
 import { toast } from 'sonner'
 import axios from 'axios'
 
@@ -47,12 +45,12 @@ const SignUp = () => {
                 withCredentials: true
             });
             if(res.data.success) {
-                Navigate("/login");
+                navigate("/login");
                 toast.success(res.data.message);
             }
         } catch (error) {
             console.log(error)
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || 'Something went wrong');
         }
     }
 
@@ -64,19 +62,19 @@ const SignUp = () => {
                     <h1 className='font-bold text-xl mb-5'>Sign Up</h1>
                     <div className='my-2'>
                         <Label className='mb-2 ml-1.5'>Full Name</Label>
-                        <Input type='text' placeholder='Sajjad' value={input.value} name='fullname' />
+                        <Input type='text' placeholder='Sajjad' value={input.fullname} onChange={changeEventHandler} name='fullname' />
                     </div>
                     <div className='my-2'>
                         <Label className='mb-2 ml-1.5'>Email</Label>
-                        <Input type='email' value={input.value} name='email' onChange={changeEventHandler} placeholder='patel@gmail.com'  />
+                        <Input type='email' value={input.email} name='email' onChange={changeEventHandler} placeholder='patel@gmail.com'  />
                     </div>
                     <div className='my-2'>
                         <Label className='mb-2 ml-1.5'>Phone No.</Label>
-                        <Input type='number' value={input.value} onChange={changeEventHandler} name='phoneNumber' placeholder='+91 6202385316' />
+                        <Input type='number' value={input.phoneNumber} onChange={changeEventHandler} name='phoneNumber' placeholder='+91 6202385316' />
                     </div>
                     <div className='my-2'>
                         <Label className='mb-2 ml-1.5'>Password</Label>
-                        <Input type='password' value={input.value} onChange={changeEventHandler} name='password' placeholder='Abc@123' />
+                        <Input type='password' value={input.password} onChange={changeEventHandler} name='password' placeholder='Abc@123' />
                     </div>
                     <div className='flex items-center'>
 

@@ -6,6 +6,8 @@ import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
+import { USER_API_END_POINT } from '../utils/constant'
+import axios from 'axios'
 
 const Login = () => {
     const [input, setInput] = useState({
@@ -14,29 +16,27 @@ const Login = () => {
         role: '',
     });
     
-     const navigate = useNavigate();
+    const navigate = useNavigate();
     const changeEventHandler = (e) => {
         setInput({...input, [e.target.name]: e.target.value});
     };
-    const changeFileHandler = (e)=> {
-        setInput({...input, file:e.target.files?.[0]});
-    }
 
     const submitHandler = async (e)=>{
         e.preventDefault();
         try {
-            const res = await axios.post(`${USER_API_END_POINT}/login`,formData, {
+            const res = await axios.post(`${USER_API_END_POINT}/login`,input, {
                 headers: {
                     "Content-Type":'application/json'
                 },
                 withCredentials: true
             });
             if(res.data.success) {
-                Navigate("/login");
+                navigate("/");
                 toast.success(res.data.message);
             }
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            toast.error(error.response?.data?.message || 'Something went wrong');
         }
     }
     return (
@@ -47,11 +47,11 @@ const Login = () => {
                     <h1 className='font-bold text-xl mb-5'>Login</h1>
                     <div className='my-2'>
                         <Label className='mb-2 ml-1.5'>Email</Label>
-                        <Input type='email' value={input.value} name='email' onChange={changeEventHandler} placeholder='patel@gmail.com' />
+                        <Input type='email' value={input.email} name='email' onChange={changeEventHandler} placeholder='patel@gmail.com' />
                     </div>
                     <div className='my-2'>
                         <Label className='mb-2 ml-1.5'>Password</Label>
-                        <Input type='password' value={input.value} onChange={changeEventHandler} name='password' placeholder='Abc@123' />
+                        <Input type='password' value={input.password} onChange={changeEventHandler} name='password' placeholder='Abc@123' />
                     </div>
                     <div className='flex items-center'>
 
