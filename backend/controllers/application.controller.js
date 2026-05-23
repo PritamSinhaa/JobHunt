@@ -82,6 +82,8 @@ export const getAppliedJobs = async (req, res) => {
         console.log(error)
     }
 }
+
+
 //from Admin side
 
 export const  getApplicants = async (req,res) => {
