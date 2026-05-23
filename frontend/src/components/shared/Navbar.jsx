@@ -5,9 +5,10 @@ import { Button } from '../ui/button';
 import { Avatar } from '../ui/avatar';
 import { AvatarImage } from '../ui/avatar';
 import { LogOut, User2 } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
-  const user = false;
+  const {user} = useSelector(store=> store.auth)
   return (
     <div className='bg-white'>
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
@@ -42,7 +43,7 @@ const Navbar = () => {
                 <p className='text-sm text-muted-foreground'>Lorem ipsum dolor sit amet.</p>
               </div>
               <div className='flex flex-row gap-2 my-2'>
-                <Button variant="secondary"><User2/>View Profile</Button>
+                <Button variant="secondary"><User2/><NavLink to='/profile'>View Profile</NavLink> </Button>
                 <Button><LogOut/>Log Out</Button>
               </div>
             </PopoverContent>
