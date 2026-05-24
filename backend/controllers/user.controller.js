@@ -7,7 +7,7 @@ import cloudinary from "../utils/cloudinary.js";
 export const register = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, password, role } = req.body;
-    console.log(fullname, email, phoneNumber, password, role);
+
     if (!fullname || !email || !phoneNumber || !password || !role) {
       return res.status(400).json({
         message: "Something is missing!",
@@ -15,22 +15,41 @@ export const register = async (req, res) => {
       });
     }
 
+    // check existing user
     const user = await User.findOne({ email });
+
     if (user) {
       return res.status(400).json({
-        message: "User already exist with this email",
+        message: "User already exists with this email",
         success: false,
       });
     }
 
+    // file upload
+    const file = req.file;
+
+    let cloudResponse;
+
+    if (file) {
+      const fileUri = getDataUri(file);
+
+      cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    }
+
+    // hash password
     const hashPassword = await bcrypt.hash(password, 10);
 
+    // create user
     await User.create({
       fullname,
       email,
       phoneNumber,
       password: hashPassword,
       role,
+
+      profile: {
+        profilePhoto: cloudResponse?.secure_url || "",
+      },
     });
 
     return res.status(201).json({
@@ -39,6 +58,11 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+    });
   }
 };
 
