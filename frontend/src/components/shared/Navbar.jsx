@@ -51,16 +51,16 @@ const Navbar = () => {
               <Popover>
             <PopoverTrigger asChild>
               <Avatar className='cursor-pointer'>
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage src={user?.profile?.profilePhoto} />
               </Avatar>
             </PopoverTrigger>
             <PopoverContent>
               <Avatar className='cursor-pointer'>
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage src={user?.profile?.profilePhoto} />
               </Avatar>
               <div>
-                <h4 className='font-medium'>Sajjad MernStack</h4>
-                <p className='text-sm text-muted-foreground'>Lorem ipsum dolor sit amet.</p>
+                <h4 className='font-medium'>{user?.fullname}</h4>
+                <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
               </div>
               <div className='flex flex-row gap-2 my-2'>
                 <Button variant="secondary"><User2/><NavLink to='/profile'>View Profile</NavLink> </Button>
