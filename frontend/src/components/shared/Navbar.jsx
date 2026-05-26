@@ -7,7 +7,7 @@ import { AvatarImage } from '../ui/avatar';
 import { LogOut, User2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { USER_API_END_POINT } from '../utils/constant';
+import { USER_API_END_POINT } from '../../utils/constant';
 import { toast } from 'sonner';
 import { setUser } from '@/redux/authSlice';
 

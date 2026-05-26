@@ -1,9 +1,11 @@
 import React from 'react'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
+import { useParams } from 'react-router-dom';
 
 const JobDescription = () => {
     const isApplied = false;
+    const params = useParams();
     return (
         <div className='max-w-7xl mx-auto my-10'>
             <div className='flex items-center justify-between'>

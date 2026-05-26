@@ -5,7 +5,7 @@ import { Avatar, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
 import { useNavigate } from 'react-router-dom'
 
-const Job = () => {
+const Job = ({job}) => {
     const navigate = useNavigate();
     const jobId = "ssrsdfsdfasf"
     return (
@@ -22,21 +22,21 @@ const Job = () => {
                     </Avatar>
                 </Button>
                 <div>
-                    <h1 className='text-lg font-bold'>Company Name</h1>
+                    <h1 className='text-lg font-bold'>{job?.company?.name}</h1>
                     <p className='text-gray-500 text-sm'>India</p>
                 </div>
             </div>
             <div>
-                <h1 className='font-bold text-lg my-2'>Title</h1>
-                <p className='text-sm text-gray-600'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, harum.</p>
+                <h1 className='font-bold text-lg my-2'>{job?.title}</h1>
+                <p className='text-sm text-gray-600'>{job?.description}</p>
             </div>
             <div className='flex items-center gap-2 mt-4'>
-                <Badge className='font-bold text-blue-700' variant='ghost'>12 positions</Badge>
-                <Badge className='font-bold text-red-500' variant='ghost'>Part Time</Badge>
-                <Badge className='font-bold text-purple-500' variant='ghost'>24 LPA</Badge>
+                <Badge className='font-bold text-blue-700' variant='ghost'>{job?.position} positions</Badge>
+                <Badge className='font-bold text-red-500' variant='ghost'>{job?.jobType}</Badge>
+                <Badge className='font-bold text-purple-500' variant='ghost'>{job?.salary} LPA</Badge>
             </div>
             <div className='flex items-center gap-4 mt-4'>
-                <Button onClick={()=> navigate(`/description/${jobId}`)} variant='outline'>Details</Button>
+                <Button onClick={()=> navigate(`/description/${job?._id}`)} variant='outline'>Details</Button>
                 <Button>Save for Later</Button>
             </div>
 
