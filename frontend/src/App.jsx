@@ -7,6 +7,7 @@ import Jobs from './components/Jobs'
 import Browse from './components/Browse'
 import Profile from './components/Profile'
 import JobDescription from './components/JobDescription'
+import Comapnies from './components/admin/Comapanies'
 
 function App() {
 
@@ -19,6 +20,11 @@ function App() {
       <Route path='browse' element={<Browse/>}></Route>
       <Route path='profile' element={<Profile/>}></Route>
       <Route path='/description/:id' element={<JobDescription/>}></Route>
+
+      {/* for admins */}
+      <Route path='/admin/companies' element={<Comapnies/>}></Route>
+      {/* <Route path='profile' element={<Profile/>}></Route>
+      <Route path='profile' element={<Profile/>}></Route> */}
     </Routes>
   )
 }
