@@ -148,25 +148,39 @@ export const logout = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
+
     const { fullname, email, phoneNumber, bio, skills } = req.body;
-    console.log(fullname, email, phoneNumber, bio, skills);
+
     const file = req.file;
 
-    //cloudinary will come here
-
+    // cloudinary upload
     let cloudResponse;
 
     if (file) {
-      const fileUri = getDataUri(file);
-      cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-    }
 
+   const fileUri = getDataUri(file);
+
+   cloudResponse = await cloudinary.uploader.upload(
+      fileUri.content,
+      {
+         resource_type: "raw",
+         folder: "resumes",
+      }
+   );
+}
+
+    // skills
     let skillsArray;
+
     if (skills) {
-      skillsArray = skills.split(",");
+      skillsArray = skills
+        .split(",")
+        .map((skill) => skill.trim());
     }
 
+    // find user
     const userId = req.id;
+
     let user = await User.findById(userId);
 
     if (!user) {
@@ -176,22 +190,30 @@ export const updateProfile = async (req, res) => {
       });
     }
 
-    //updating data
+    // updating user data
     if (fullname) user.fullname = fullname;
+
     if (email) user.email = email;
+
     if (phoneNumber) user.phoneNumber = phoneNumber;
+
     if (bio) user.profile.bio = bio;
+
     if (skills) user.profile.skills = skillsArray;
 
-    //resume is here
-
+    // resume upload
     if (cloudResponse) {
-      user.profile.resume = cloudResponse.secure_url; //save the cloudinary url
-      user.profile.resumeOriginalName = file.originalname; //save the original file name
+
+      // save cloudinary url
+      user.profile.resume = cloudResponse.secure_url;
+
+      // save original file name
+      user.profile.resumeOriginalName = file.originalname;
     }
 
     await user.save();
 
+    // response user object
     user = {
       _id: user._id,
       fullname: user.fullname,
@@ -206,7 +228,14 @@ export const updateProfile = async (req, res) => {
       user,
       success: true,
     });
+
   } catch (error) {
+
     console.log(error);
+
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+    });
   }
 };
