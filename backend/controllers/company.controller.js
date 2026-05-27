@@ -1,4 +1,6 @@
 import {Company} from "../models/company.model.js"
+import getDataUri from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 
 
 export const registerCompany = async (req,res) => {
@@ -73,14 +75,42 @@ export const getCompanyById = async (req,res) => {
 
 export const updateCompany = async (req,res) => {
     try {
+
         const {name, description, website, location} = req.body;
+
         const file = req.file;
 
-        //cloudinary will come here
+        let logo;
 
-        const updateData = {name, description, website, location};
+        // upload logo if file exists
+        if(file){
 
-        const company = await Company.findByIdAndUpdate(req.params.id, updateData, {new:true});
+            const fileUri = getDataUri(file);
+
+            const cloudResponse = await cloudinary.uploader.upload(
+                fileUri.content
+            );
+
+            logo = cloudResponse.secure_url;
+        }
+
+        const updateData = {
+            name,
+            description,
+            website,
+            location,
+        };
+
+        // add logo only if uploaded
+        if(logo){
+            updateData.logo = logo;
+        }
+
+        const company = await Company.findByIdAndUpdate(
+            req.params.id,
+            updateData,
+            {new:true}
+        );
 
         if(!company){
             return res.status(404).json({
@@ -94,7 +124,14 @@ export const updateCompany = async (req,res) => {
             company,
             success:true,
         })
+
     } catch (error) {
+
         console.log(error);
+
+        return res.status(500).json({
+            message:"Internal server error",
+            success:false
+        })
     }
 }
