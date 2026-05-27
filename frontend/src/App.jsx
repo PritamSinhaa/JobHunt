@@ -8,6 +8,9 @@ import Browse from './components/Browse'
 import Profile from './components/Profile'
 import JobDescription from './components/JobDescription'
 import Comapnies from './components/admin/Comapanies'
+import CompanyCreate from './components/admin/CompanyCreate'
+import SetupCompany from './components/admin/SetupCompany'
+
 
 function App() {
 
@@ -23,8 +26,8 @@ function App() {
 
       {/* for admins */}
       <Route path='/admin/companies' element={<Comapnies/>}></Route>
-      {/* <Route path='profile' element={<Profile/>}></Route>
-      <Route path='profile' element={<Profile/>}></Route> */}
+      <Route path='/admin/companies/create' element={<CompanyCreate/>}></Route>
+      <Route path='/admin/companies/:id' element={<SetupCompany/>}></Route>
     </Routes>
   )
 }
