@@ -10,7 +10,6 @@ import { USER_API_END_POINT } from '../../utils/constant'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading, setUser } from '@/redux/authSlice'
-import store from '@/redux/store'
 import { Loader2 } from 'lucide-react'
 
 const Login = () => {

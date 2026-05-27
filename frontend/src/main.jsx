@@ -5,14 +5,20 @@ import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from './components/ui/sonner'
 import { Provider } from 'react-redux'
 import store from './redux/store'
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
 
+const persistor = persistStore(store);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <BrowserRouter>
+    <PersistGate loading={null} persistor={persistor}>
       <App />
-      <Toaster />
-    </BrowserRouter>,
+       <Toaster />
+    </PersistGate>
+     
+    </BrowserRouter>
   </Provider>
 
 )
